@@ -23,6 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'tof_pub_all = gimbal_pi.tof_pub_all:main',
         ],
     },
 )
