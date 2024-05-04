@@ -55,7 +55,7 @@ class TOFPublisherAll(Node):
         result_frame = depth_buf.astype(np.uint8)  & amplitude_buf.astype(np.uint8)
         return result_frame 
     
-    
+
     def start(self):
         try:
             while rclpy.ok():
@@ -71,8 +71,8 @@ class TOFPublisherAll(Node):
                     result_image = self.process_frame(depth_buf,amplitude_buf)
                     result_image = cv2.applyColorMap(result_image, cv2.COLORMAP_JET)
 
-                amp_msg = self.bridge.cv2_to_imgmsg(amplitude_buf.astype(np.uint8), "bgr8")
-                colorized_msg = self.bridge.cv2_to_imgmsg(result_image.astype(np.uint8), "bgr8")
+                amp_msg = self.bridge.cv2_to_imgmsg(amplitude_buf.astype(np.uint8), "8UCI")
+                colorized_msg = self.bridge.cv2_to_imgmsg(result_image.astype(np.uint8), "8UCI")
                 depth_msg = self.bridge.cv2_to_imgmsg(depth_buf_raw, "32FC1")
                 self.tof_amp_pub.publish(amp_msg)
                 self.tof_depth_pub.publish(depth_msg)
