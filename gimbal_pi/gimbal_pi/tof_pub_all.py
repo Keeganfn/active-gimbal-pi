@@ -54,12 +54,8 @@ class TOFPublisherAll(Node):
         depth_buf = np.clip(depth_buf, 0, 255)
         result_frame = depth_buf.astype(np.uint8)  & amplitude_buf.astype(np.uint8)
         return result_frame 
-
-
-    def cv_to_img_msg(self, image):
-
-
-
+    
+    
     def start(self):
         try:
             while rclpy.ok():
