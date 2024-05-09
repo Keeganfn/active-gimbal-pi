@@ -13,9 +13,9 @@ import numpy as np
 #Arducam 
 import ArducamDepthCamera as ac
 
-class TOFPublisherAll(Node):
+class TOFPubAll(Node):
     def __init__(self, max_distance = 4):
-        super().__init__("gimbal_camera_publisher")
+        super().__init__("gimbal_tof_pub_all_node")
 
         # image publisher
         self.tof_amp_pub = self.create_publisher(Image, "gimbal/tof_camera/amplitude_raw", 10)
@@ -87,7 +87,7 @@ class TOFPublisherAll(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    tof_publisher = TOFPublisherAll()
+    tof_publisher = TOFPubAll()
     tof_publisher.start()
     rclpy.spin(tof_publisher)
     rclpy.shutdown()
