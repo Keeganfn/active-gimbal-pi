@@ -26,6 +26,7 @@ setup(
             'tof_pub_all = gimbal_pi.tof_pub_all:main',
             'tof_pub_depth = gimbal_pi.tof_pub_depth:main',
             'gripper_control = gimbal_pi.gripper_control:main',
+            'motor_control = gimbal_pi.motor_control:main',
         ],
     },
 )

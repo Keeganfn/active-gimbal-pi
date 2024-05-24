@@ -25,7 +25,7 @@ class MotorController(Node):
 
         # Create a joint state publisher and timer to publish at 10hz
         qos_profile = QoSProfile(depth=10)
-        self.joint_pub = self.create_publisher(JointState, "joint_states", qos_profile)
+        self.joint_pub = self.create_publisher(JointState, "joint_states_gimbal", qos_profile)
         timer_period = 0.1  # seconds (10 hz)
         self.timer = self.create_timer(timer_period, self.motor_timer_callback)
 
