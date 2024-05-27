@@ -5,6 +5,7 @@ from rclpy.executors import MultiThreadedExecutor
 from time import sleep
 from rclpy.qos import QoSProfile
 from sensor_msgs.msg import JointState
+from std_msgs.msg import Float64MultiArray
 from math import pi
 from readerwriterlock import rwlock
 
@@ -25,7 +26,8 @@ class MotorController(Node):
 
         # Create a joint state publisher and timer to publish at 10hz
         qos_profile = QoSProfile(depth=10)
-        self.joint_pub = self.create_publisher(JointState, "joint_states_gimbal", qos_profile)
+        # self.joint_pub = self.create_publisher(JointState, "joint_states_gimbal", qos_profile)
+        self.joint_pub = self.create_publisher(Float64MultiArray, "/gimbal_forward_position_controller/commands", 10)
         timer_period = 0.1  # seconds (10 hz)
         self.timer = self.create_timer(timer_period, self.motor_timer_callback)
 
@@ -69,13 +71,17 @@ class MotorController(Node):
         # Fixing "negative" currents from max of 2 byte int to be actual negative values
         current = [(lambda i: i-65536.0 if i > 32768 else i)(i) for i in current]
 
-        joint_state = JointState()
-        now = self.get_clock().now()
-        joint_state.header.stamp = now.to_msg()
-        joint_state.name = ["dist_joint", "mid_joint"]
-        joint_state.position = position
-        joint_state.effort = [float(x) for x in current]
+        joint_state = Float64MultiArray()
+        joint_state.data = position
         self.joint_pub.publish(joint_state)
+
+        # joint_state = JointState()
+        # now = self.get_clock().now()
+        # joint_state.header.stamp = now.to_msg()
+        # joint_state.name = ["dist_joint", "mid_joint"]
+        # joint_state.position = position
+        # joint_state.effort = [float(x) for x in current]
+        # self.joint_pub.publish(joint_state)
 
     def shutdown_motors(self):
         with self.lock.gen_wlock():
