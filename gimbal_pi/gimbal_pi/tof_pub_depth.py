@@ -49,6 +49,8 @@ class TOFPubDepth(Node):
                     depth_buf = frame.getDepthData()
                     self.tof.releaseFrame(frame)
                 depth_msg = self.bridge.cv2_to_imgmsg(depth_buf, "32FC1")
+                depth_msg.header.stamp = self.get_clock.now()
+                depth_msg.frame_id = "tof_gimbal_camera_optical_link"
                 self.tof_depth_pub.publish(depth_msg)
             self.tof.stop()
             self.tof.close()
